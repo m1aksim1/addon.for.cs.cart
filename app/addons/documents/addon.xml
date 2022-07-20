@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<addon scheme="3.0">
+    <id>documents</id>
+    <version>1.0</version>
+    <priority>100</priority>
+    <position>10</position>
+    <status>active</status>
+    <bootstrap>\Tygh\Addons\SdDepartments\Bootstrap</bootstrap>
+    <installer>\Tygh\Addons\SdDepartments\Installer</installer>
+
+    <queries>
+        <item for="install">
+            CREATE TABLE `?:documents` (
+            `id` INT NOT NULL AUTO_INCREMENT ,
+            `date` DATE NOT NULL ,
+            `name` TEXT NOT NULL ,
+            `description` TEXT NOT NULL ,
+            `category` TEXT NOT NULL ,
+            `type` TEXT NOT NULL ,
+            `status` MEDIUMINT NOT NULL ,
+            PRIMARY KEY (`id`)) ENGINE = InnoDB;
+        </item>
+        <item for="install">
+            CREATE TABLE `?:documents_availability` (
+            `documents_id` INT NOT NULL ,
+            `user_group` INT NOT NULL )
+            ENGINE = InnoDB;
+        </item>
+
+        <item for="uninstall"> DROP TABLE IF EXISTS ?:documents</item>
+        <item for="uninstall"> DROP TABLE IF EXISTS ?:documents_availability</item>
+    </queries>
+</addon>
