@@ -16,16 +16,40 @@
                 </div>  
 
                 <div class="control-group">
-                    <label for="elm_banner_name" class="control-label">{__("category")}</label>
+                <label for="elm_banner_name" class="control-label">{__("category")}</label>
                     <div class="controls">
-                        <input type="text" name="document_data[category]" id="elm_banner_name" value="{$document_data.category}" size="25" class="input-large" />
+                        {include 
+                            file="pickers/categories/picker.tpl" 
+                            but_text=_("add category") 
+                            data_id="return_users" 
+                            but_meta="btn" 
+                            input_name="document_data[category]" 
+                            item_ids=$document_data.category                        
+                            placement="left"
+                            display = "checkbox"
+                            view_mode ="mixed"
+                            }
                     </div>
                 </div>
-
+                
+                
                 <div class="control-group" id="banner_text">
                     <label class="control-label" for="elm_banner_description">{__("description")}:</label>
                     <div class="controls">
                         <textarea id="elm_banner_description" name="document_data[description]" cols="35" rows="8" class="input-large">{$document_data.description}</textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">{__("documents")}:</label>
+                    <div class="controls">
+                        {include
+                            file="common/form_file_uploader.tpl"
+                            existing_pairs=(($product_data.file_path) ? [$product_data.file_path] : []) + $product_data.image_pairs|default:[]
+                            file_name="file"
+                            name="document_data[file]"
+                            image_pair_types=['N' => 'product_add_additional_image', 'M' => 'product_main_image', 'A' => 'product_additional_image']
+                            allow_update_files=!$is_shared_product && $allow_update_files|default:true
+                        }
                     </div>
                 </div>
 
@@ -42,16 +66,26 @@
                         {include file="common/calendar.tpl" date_id="elm_banner_timestamp_`$id`" date_name="document_data[timestamp]" date_val=$document_data.timestamp|default:$smarty.const.TIME start_year=$settings.Company.company_start_year}
                     </div>
                 </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="elm_banner_timestamp_{$id}">{__("available_since")}</label>
+                    <div class="controls">
+                        {include file="common/calendar.tpl" date_id="elm_banner_timestamp_`$id`" date_name="document_data[available_since]" date_val=$document_data.available_since|default:$smarty.const.TIME start_year=$settings.Company.company_start_year}
+                    </div>
+                </div>
                 <div class="control-group">
                     <label class="control-label" for="elm_banner_timestamp_{$id}">{__("status")}</label>
                     <div class="controls">
-                        <select name="document_data[status]">
-                            <option value="A">{__("active")}</option>
-                            <option value="H">{__("hidden")}</option>
-                            <option value="D">{__("disabled")}</option>
-                        </select>
+                        {include file="common/select_status.tpl" display = "select" input_name="document_data[status]" id="elm_banner_status" obj_id=$id obj=$document_data hidden=true}
                     </div>
-                </div>
+               </div>
+                <div class="control-group">
+                    <label class="control-label" for="elm_banner_timestamp_{$id}">{__("usergroups")}</label>
+                    <div class="controls">
+                        {include file="common/select_usergroups.tpl" id="ug_id" name="document_data[usergroup_ids]" usergroups=["type"=>"C", "status"=>["A", "H"]]|fn_get_usergroups:$smarty.const.DESCR_SL usergroup_ids=$document_data.usergroup_ids input_extra="" list_mode=false}
+                    </div>
+               </div>
+                
                     
                 <div class="control-group">
                     <label for="elm_banner_name" class="control-label">{__("author")}</label>
