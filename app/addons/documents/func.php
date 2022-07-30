@@ -50,7 +50,6 @@ function fn_get_documents($params = [], $items_per_page = 0){
         "WHERE 1 ?p ?p ?p",
         'document_id', implode(', ', $fields), $condition, $sorting, $limit
     );
-
     foreach ($documents as $document_id => $document){
         $u_info = fn_get_user_info($document['user_id'],false);
         $documents[$document_id]['user_info'] = $u_info;
@@ -60,20 +59,20 @@ function fn_get_documents($params = [], $items_per_page = 0){
 
 function fn_get_document_data($document_id = 0)
 {
-   $document = [];
-   if(!empty($document_id)){
-       list($documents) = fn_get_documents([
-           'document_id' => $document_id   
-       ], 1);
-       
-       if(!empty($documents)){
-           $document = reset($documents);
-           $document['usergroup_ids'] = fn_document_get_availability($document['document_id']);
-       }
-       $document['usergroup_ids'] = implode(',', $document['usergroup_ids']);
-       
+    $document = [];
+    if(!empty($document_id)){
+        list($documents) = fn_get_documents([
+            'document_id' => $document_id   
+        ], 1);
+        
+        if(!empty($documents)){
+            $document = reset($documents);
+            $document['usergroup_ids'] = fn_document_get_availability($document['document_id']);
+        }
+        $document['usergroup_ids'] = implode(',', $document['usergroup_ids']);
+        $document['image_pairs'] = fn_get_image_pairs($document_id, 'document', 'A', true, true);
+        $document['main_pair'] = fn_get_image_pairs($document_id, 'document', 'M', true, true);
    }
-   
    return $document;
 }
 
@@ -93,6 +92,25 @@ function fn_update_document($data, $document_id)
         $document_id = $data['document_id'] = db_replace_into('documents', $data);
     }
     $usergroup_ids = !empty($data['usergroup_ids']) ? $data['usergroup_ids'] : [];
+    
+    if (!empty($document_id)) {
+        fn_attach_image_pairs('document_main', 'document', $document_id);
+
+        // Update additional images
+        fn_attach_image_pairs('document_additional', 'document', $document_id);
+
+        // Add new additional images
+        fn_attach_image_pairs('document_add_additional', 'document', $document_id);
+
+        if (isset($data['removed_image_pair_ids'])) {
+            $data['removed_image_pair_ids'] = array_filter($data['removed_image_pair_ids']);
+        }
+        
+        if (!empty($data['removed_image_pair_ids'])) {
+            fn_delete_image_pairs($document_id, 'document', '', $data['removed_image_pair_ids']);
+        }
+    }
+
     fn_document_delete_availability($document_id);
     fn_document_add_availability($document_id,  $usergroup_ids, $available_since);   
     return $document_id;    

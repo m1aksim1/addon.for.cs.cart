@@ -6,12 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($mode == 'update_document'){
         $document_id = !empty($_REQUEST['document_id']) ? $_REQUEST['document_id'] : 0;
         $data = !empty($_REQUEST['document_data']) ? $_REQUEST['document_data'] : [];
+        $data['removed_image_pair_ids']= $_REQUEST['product_data']['removed_image_pair_ids'];
         $document_id = fn_update_document($data, $document_id);
+        
         if(!empty($document_id)){
             $suffix = ".update_document?document_id={$document_id}";  
         }else{
             $suffix = ".add_document";  
         }
+        
         
     } else if($mode == 'delete_document'){ 
         $document_id = !empty($_REQUEST['document_id']) ? $_REQUEST['document_id'] : 0;
@@ -24,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 elseif($mode == 'add_document' || $mode == 'update_document'){
     $document_id = !empty($_REQUEST['document_id']) ? $_REQUEST['document_id'] : 0;    
     $document_data = fn_get_document_data($document_id);
-    
+;
     if (empty($document_data) && $mode == 'update') {
         return [CONTROLLER_STATUS_NO_PAGE];
     }

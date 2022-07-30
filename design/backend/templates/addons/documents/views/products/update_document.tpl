@@ -39,19 +39,7 @@
                         <textarea id="elm_banner_description" name="document_data[description]" cols="35" rows="8" class="input-large">{$document_data.description}</textarea>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">{__("documents")}:</label>
-                    <div class="controls">
-                        {include
-                            file="common/form_file_uploader.tpl"
-                            existing_pairs=(($product_data.file_path) ? [$product_data.file_path] : []) + $product_data.image_pairs|default:[]
-                            file_name="file"
-                            name="document_data[file]"
-                            image_pair_types=['N' => 'product_add_additional_image', 'M' => 'product_main_image', 'A' => 'product_additional_image']
-                            allow_update_files=!$is_shared_product && $allow_update_files|default:true
-                        }
-                    </div>
-                </div>
+                
 
                 <div class="control-group">
                     <label for="elm_banner_name" class="control-label">{__("type")}</label>
@@ -86,6 +74,18 @@
                     </div>
                </div>
                 
+                <div class="control-group">
+                    <label class="control-label">{__("images")}:</label>
+                    <div class="controls">
+                        {include
+                            file="common/form_file_uploader.tpl"
+                            existing_pairs=(($document_data.main_pair) ? [$document_data.main_pair] : []) + $document_data.image_pairs|default:[]
+                            file_name="file"
+                            image_pair_types=['N' => 'document_add_additional_image', 'M' => 'document_main_image', 'A' => 'document_additional_image']
+                            allow_update_files=!$is_shared_document && $allow_update_files|default:true
+                        }
+                    </div>
+                </div>
                     
                 <div class="control-group">
                     <label for="elm_banner_name" class="control-label">{__("author")}</label>
