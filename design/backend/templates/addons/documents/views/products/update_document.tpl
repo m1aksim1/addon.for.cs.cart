@@ -44,7 +44,10 @@
                 <div class="control-group">
                     <label for="elm_banner_name" class="control-label">{__("type")}</label>
                     <div class="controls">
-                        <input type="text" name="document_data[type]" id="elm_banner_name" value="{$document_data.type}" size="25" class="input-large" />
+                        <select name="document_data[type]" id="tag_status_identifier">
+                            <option value="I"{if $document_data.type == "I"} selected="selected"{/if}>{__("internal")}</option>
+                            <option value="G"{if $document_data.type == "G"} selected="selected"{/if}>{__("general")}</option>
+                        </select>
                     </div>
                 </div>  
         
@@ -86,11 +89,10 @@
                         }
                     </div>
                 </div>
-                    
                 <div class="control-group">
                     <label for="elm_banner_name" class="control-label">{__("author")}</label>
                     <div class="controls">
-                        <input type="text" name="document_data[author]" id="elm_banner_name" value="{$user_info.email}" size="25" class="input-large" />
+                        <input type="text" name="document_data[author]" id="elm_banner_name" value="{if $document_data.author == null}{$user_info.email}{else}{$document_data.author}{/if}" size="25" class="input-large" />
                     </div>
                 </div>  
                 

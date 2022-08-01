@@ -53,6 +53,7 @@ function fn_get_documents($params = [], $items_per_page = 0){
     foreach ($documents as $document_id => $document){
         $u_info = fn_get_user_info($document['user_id'],false);
         $documents[$document_id]['user_info'] = $u_info;
+        $documents[$document_id]['usergroup_ids'] = fn_document_get_availability($document_id);
     }
     return array($documents, $params);
 }
