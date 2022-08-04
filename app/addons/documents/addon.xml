@@ -5,9 +5,6 @@
     <priority>100</priority>
     <position>10</position>
     <status>active</status>
-  
-    
-
     <queries>
     <item for="install">
             CREATE TABLE `?:documents` (
@@ -28,15 +25,7 @@
             `usergroup_id` INT NOT NULL )
             ENGINE = InnoDB;
         </item>
-        <item for="install">
-            CREATE TABLE `?:documents_path` (
-            `document_id` INT NOT NULL ,
-            `file_path` INT NOT NULL )
-            ENGINE = InnoDB;
-        </item>
-
         <item for="uninstall"> DROP TABLE IF EXISTS ?:documents</item>
         <item for="uninstall"> DROP TABLE IF EXISTS ?:documents_availability</item>
-        <item for="uninstall"> DROP TABLE IF EXISTS ?:documents_path</item>
     </queries>
 </addon>

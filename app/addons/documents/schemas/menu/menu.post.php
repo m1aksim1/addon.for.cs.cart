@@ -1,5 +1,5 @@
 <?php
-$schema['central']['products']['items']['documents']= [
+$schema['central']['website']['items']['documents']= [
     'href' => 'products.manage_documents',
     'position' => 100,
 ];

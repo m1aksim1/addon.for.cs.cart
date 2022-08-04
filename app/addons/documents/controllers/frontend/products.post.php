@@ -21,7 +21,6 @@ if ($mode == 'documents'){
     $params = $_REQUEST;
     $params['user_id'] = Tygh::$app['session']['auth']['user_id'];    
     list($documents, $search) = fn_get_documents();
-    print_r($documents);
     Tygh::$app['view']->assign('documents', $documents);
     Tygh::$app['view']->assign('search', $search);
 }elseif ($mode == 'document') {

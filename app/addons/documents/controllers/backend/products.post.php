@@ -37,4 +37,5 @@ elseif($mode == 'add_document' || $mode == 'update_document'){
     list($documents, $search) = fn_get_documents($_REQUEST, Registry::get('settings.Appearance.admin_elements_per_page'));
     Tygh::$app['view']->assign('documents', $documents);
     Tygh::$app['view']->assign('search', $search);
+    
 }

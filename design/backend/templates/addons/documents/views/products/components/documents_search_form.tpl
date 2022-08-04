@@ -49,7 +49,7 @@
     
     <div class="sidebar-field">
         <label class="control-label">{__("file name")}:</label>
-        
+        <input type="text" id="elm_tag" name="file_name" size="20" value="{$search.file_name}" onfocus="this.select();" class="input-text" />
     </div>
         
     <div class="sidebar-field">
